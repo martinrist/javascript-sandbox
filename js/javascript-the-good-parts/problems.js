@@ -36,3 +36,36 @@ function applyf(binaryFunc) {
     }
 }
 
+// Problem 6
+function curry(func, x) {
+    return function (y) {
+        return func(x, y);
+    }
+}
+
+// Problem 6 - Variant
+function curry2(func, x) {
+    return applyf(func)(x);
+}
+
+// Problem 7
+inc_v1 = addf(1);
+inc_v2 = applyf(add)(1);
+inc_v3 = curry(add, 1);
+
+// Problem 8
+function methodize(func) {
+    return function (y) {
+        return func(this, y);
+    }
+}
+
+// Problem 9
+Number.prototype.add = methodize(add);
+Number.prototype.mul = methodize(mul);
+
+function demethodize(func) {
+    return function (x, y) {
+        return func.call(x, y);
+    }
+}
