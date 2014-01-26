@@ -93,3 +93,51 @@ function composeb(f, g) {
         return g(f(x, y), z);
     }
 }
+
+// Problem 13
+function once1(func) {
+    var alreadyCalled = false;
+    return function () {
+        if (!alreadyCalled) {
+            alreadyCalled = true;
+            return func.apply(this, arguments);
+        } else {
+            throw Error("Function already called");
+        }
+    }
+}
+
+// Problem 13 - Alternative approach without 'alreadyCalled'
+function once2(func) {
+    return function () {
+        var f = func;
+        func = null;
+        return f.apply(this, arguments);
+    }
+}
+
+// Problem 14
+function counterf(value) {
+    return {
+        inc: function () {
+            value += 1;
+            return value;
+        },
+        dec: function () {
+            value -= 1;
+            return value;
+        }
+    };
+}
+
+// Problem 15
+function revocable(nice) {
+    return {
+        invoke: function () {
+            return nice.apply(this, arguments);
+        },
+        revoke: function () {
+            nice = null;
+        }
+    };
+}
