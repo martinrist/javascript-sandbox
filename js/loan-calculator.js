@@ -1,6 +1,3 @@
-<!-- The rest of this example is JavaScript code in the <script> tag below -->
-<!-- Normally, this script would go in the document <head> above but it -->
-<!-- is easier to understand here, after you've seen its HTML context. -->
 "use strict"; // Use ECMAScript 5 strict mode in browsers that support it
 
 /*
