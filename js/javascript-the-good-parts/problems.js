@@ -69,3 +69,27 @@ function demethodize(func) {
         return func.call(x, y);
     }
 }
+
+// Problem 10
+function twice(func) {
+    return function (x) {
+        return func(x, x);
+    }
+}
+
+// Problem 11
+var double = twice(add);
+var square = twice(mul);
+
+function composeu(f, g) {
+    return function (x) {
+        return g(f(x));
+    }
+}
+
+// Problem 12
+function composeb(f, g) {
+    return function (x, y, z) {
+        return g(f(x, y), z);
+    }
+}
