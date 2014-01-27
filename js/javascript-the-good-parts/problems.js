@@ -1,3 +1,5 @@
+"use strict";
+
 // Problem 1
 // Write a function that takes an argument and returns that argument:
 //   identity(3)             // returns 3
@@ -26,7 +28,7 @@ function mul(x, y) {
 function identityf(x) {
     return function () {
         return x;
-    }
+    };
 }
 
 
@@ -36,7 +38,7 @@ function identityf(x) {
 function addf(x) {
     return function (y) {
         return x + y;
-    }
+    };
 }
 
 
@@ -49,8 +51,8 @@ function applyf(binaryFunc) {
     return function (x) {
         return function (y) {
             return binaryFunc(x, y);
-        }
-    }
+        };
+    };
 }
 
 
@@ -62,10 +64,11 @@ function applyf(binaryFunc) {
 function curry(func, x) {
     return function (y) {
         return func(x, y);
-    }
+    };
 }
 
 // Variant that uses applyf()
+//noinspection JSUnusedGlobalSymbols
 function curry2(func, x) {
     return applyf(func)(x);
 }
@@ -75,9 +78,9 @@ function curry2(func, x) {
 // Without writing any new functions, show three ways to create the inc function:
 //   inc(5)                  // returns 6
 //   inc(inc(5))             // returns 7
-inc_v1 = addf(1);
-inc_v2 = applyf(add)(1);
-inc_v3 = curry(add, 1);
+var inc_v1 = addf(1);
+var inc_v2 = applyf(add)(1);
+var inc_v3 = curry(add, 1);
 
 
 // Problem 8
@@ -87,7 +90,7 @@ inc_v3 = curry(add, 1);
 function methodize(func) {
     return function (y) {
         return func(this, y);
-    }
+    };
 }
 
 
@@ -95,13 +98,11 @@ function methodize(func) {
 // Write demethodize, a function that converts a method to a binary function:
 //   demethodize(Number.prototype.add)(5, 6)
 //                           // returns 11
-Number.prototype.add = methodize(add);
-Number.prototype.mul = methodize(mul);
 
 function demethodize(func) {
     return function (x, y) {
         return func.call(x, y);
-    }
+    };
 }
 
 
@@ -115,7 +116,7 @@ function demethodize(func) {
 function twice(func) {
     return function (x) {
         return func(x, x);
-    }
+    };
 }
 
 
@@ -123,13 +124,10 @@ function twice(func) {
 // Write a function composeu that takes two unary functions and returns a unary function that calls them both:
 //   composeu(double, square)(3)
 //                           // returns 36
-var double = twice(add);
-var square = twice(mul);
-
 function composeu(f, g) {
     return function (x) {
         return g(f(x));
-    }
+    };
 }
 
 
@@ -140,5 +138,5 @@ function composeu(f, g) {
 function composeb(f, g) {
     return function (x, y, z) {
         return g(f(x, y), z);
-    }
+    };
 }
