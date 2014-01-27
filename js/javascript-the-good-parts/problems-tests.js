@@ -1,5 +1,5 @@
 /*global identity, add, mul, identityf, addf, applyf, curry, methodize, demethodize, inc_v1, inc_v2, inc_v3, twice, composeu, composeb*/
-/*global module, test, equal*/
+/*global module, test, equal, ok*/
 
 'use strict';
 
@@ -86,3 +86,60 @@ test("Problem 12 - composeb(f, g)(x, y, z)", function () {
     equal(typeof composeb(add, mul), "function", "composeb(f, g) returns a function");
     equal(composeb(add, mul)(2, 3, 5), 25, "composeb(f, g)(x, y, z) returns g(f(x, y), z)");
 });
+
+test("Problem 13 - once(f)", function () {
+    var once_add = once(add);
+    equal(typeof once_add, "function", "once(f) returns a function");
+    equal(once_add(3, 4), 7, "once_add(x, y) calls add on first invocation");
+
+    raisesException(function () {
+            once_add(3, 4);
+        }, "Once_add should error on second invocation but didn't",
+        "Once_add throws error on second invocation"
+    );
+});
+
+test("Problem 14 - counterf(x)", function () {
+    var counter = counterf(10);
+    equal(typeof counter, "object", "counterf(x) returns an object");
+    equal(typeof counter.inc, "function", "counterf(x) contains an inc() function");
+    equal(typeof counter.dec, "function", "counterf(x) contains a dec() function");
+    equal(counter.inc(), 11, "inc() increments counter");
+    equal(counter.inc(), 12, "inc() increments counter again");
+    counter = counterf(10);
+    equal(counter.dec(), 9, "dec() decrements counter");
+    equal(counter.dec(), 8, "dec() decrements counter again");
+})
+
+test("Problem 15 - revocable(f)", function () {
+    var rev = revocable(add);
+    equal(typeof rev, "object", "revocable(f) returns an object");
+    equal(typeof rev.invoke, "function", "revocable(f) contains an invoke() function");
+    equal(typeof rev.revoke, "function", "revocable(f) contains a revoke() function");
+    equal(rev.invoke(3, 4), 7, "Calling invoke(x, y) on revocable(add) returns x + y");
+    equal(rev.invoke(3, 4), 7, "Can call invoke multiple times before revoke()");
+    rev.revoke();
+
+    raisesException(function () {
+            rev.invoke(3, 4);
+        }, "rev.invoke() should throw error on invocation after revoke() but didn't",
+        "rev.invoke() throws error on invocation after revoke()"
+    );
+})
+
+function raisesException(code, failMsg, passMsg) {
+    try {
+        code();
+        fail(failMsg);
+    } catch (e) {
+        pass(passMsg);
+    }
+
+    function fail(msg) {
+        ok(false, msg);
+    }
+
+    function pass(msg) {
+        ok(true, msg);
+    }
+}
