@@ -160,6 +160,7 @@ function once(func) {
 }
 
 // Problem 13 - Alternative approach without 'alreadyCalled'
+//noinspection JSUnusedGlobalSymbols
 function once2(func) {
     return function () {
         var f = func;

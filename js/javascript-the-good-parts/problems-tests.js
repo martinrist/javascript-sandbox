@@ -109,7 +109,7 @@ test("Problem 14 - counterf(x)", function () {
     counter = counterf(10);
     equal(counter.dec(), 9, "dec() decrements counter");
     equal(counter.dec(), 8, "dec() decrements counter again");
-})
+});
 
 test("Problem 15 - revocable(f)", function () {
     var rev = revocable(add);
@@ -125,7 +125,7 @@ test("Problem 15 - revocable(f)", function () {
         }, "rev.invoke() should throw error on invocation after revoke() but didn't",
         "rev.invoke() throws error on invocation after revoke()"
     );
-})
+});
 
 function raisesException(code, failMsg, passMsg) {
     try {
