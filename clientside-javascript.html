@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Client-side JavaScript Sandbox</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<h1>Client-side JavaScript Sandbox</h1>
+<p>This date updates automatically: <span id="automatic-date"></span></p>
+<p>Click the buttons below to adjust date: <span id='current-date'></span></p>
+<button onclick="updateDate('current-date')">Update date</button>
+<script type="text/javascript">
+function updateDate(id) {
+    document.getElementById(id).innerHTML = new Date().toISOString();
+}
+
+window.setInterval(function() {
+    updateDate('automatic-date');
+}, 1000);
+
+</script>
+</body>
+</html>
