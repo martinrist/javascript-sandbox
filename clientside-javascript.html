@@ -9,13 +9,15 @@
 <p>This date updates automatically: <span id="automatic-date"></span></p>
 <p>Click the buttons below to adjust date: <span id='current-date'></span></p>
 <button onclick="updateDate('current-date')">Update date</button>
+<script src="js/lib/sugar.min.js"></script>
 <script type="text/javascript">
 function updateDate(id) {
-    document.getElementById(id).innerHTML = new Date().toISOString();
+    document.getElementById(id).innerHTML = new Date().format('full');
 }
 
-window.setInterval(function() {
+setTimeout(function update() {
     updateDate('automatic-date');
+    setTimeout(update, 1000);
 }, 1000);
 
 </script>
