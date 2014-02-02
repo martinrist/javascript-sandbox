@@ -2,3 +2,4 @@
 *.map
 **/modules/*.js
 **/promises/*.js
+.DS_Store
