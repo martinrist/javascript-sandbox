@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bacon.js Sandbox</title>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script type="text/javascript" src="../js/lib/Bacon.js"></script>
+</head>
+<body>
+<h1>Bacon.js Sandbox Examples</h1>
+
+<h2>Simple Event Stream</h2>
+<button id="clickMe">Click Me!</button>
+<script>
+    var clickMeClickStream = $('#clickMe').asEventStream('click');
+    clickMeClickStream.onValue(function () {
+        alert('You clicked me!');
+    });
+</script>
+
+<h2>Simple Event Stream with Value</h2>
+<label for="inputText">Input a value:</label>
+<input id="inputText"/>
+<label for="outputText">Output:</label><span id="outputText"></span>
+<script>
+    var inputTextChangeStream = $('#inputText').asEventStream('change');
+    inputTextChangeStream.onValue(function (e) {
+                var text = $(e.target).val();
+                $('#outputText').text($('#outputText').text() + ' ' + text);
+            }
+    );
+</script>
+
+<h2>Combining Event Streams - 1</h2>
+<label for="inputText1">Enter text (1):</label>
+<input id="inputText1"/>
+<label for="inputText2">Enter text (2):</label>
+<input id="inputText2"/>
+<script>
+    var inputText1ChangeStream = $('#inputText1').asEventStream('change');
+    var inputText2ChangeStream = $('#inputText2').asEventStream('change');
+    var combinedTextChangeStream = inputText1ChangeStream.merge(inputText2ChangeStream);
+    combinedTextChangeStream.onValue(function (v) {
+        alert('Received value ' + $(v.target).val());
+    })
+</script>
+
+<h2>Combining Event Streams - 2</h2>
+<input id="text1"/><input id="text2"/> = <span id="result"></span>
+<script>
+    function extractValueFromEvent(e) {
+        return $(e.target).val();
+    }
+    var x = $('#text1').asEventStream('change').map(extractValueFromEvent);
+    var y = $('#text2').asEventStream('change').map(extractValueFromEvent);
+
+    concatStream = Bacon.combineWith(concat, x, y);
+    concatStream.onValue(function(result) { $('#result').text(result);});
+    function concat(x, y) { return x.concat(y); }
+</script>
+
+<h2>Throttling Event Streams</h2>
+<label for="throttling-input">Input:</label>
+<input id="throttling-input">
+<label for="throttling-output">Output:</label>
+<span id="throttling-output">
+<script>
+    var inputText = $('#throttling-input').asEventStream('keyup').map(extractValueFromEvent).throttle(2000).toProperty();
+    inputText.assign($('#throttling-output'), "text");
+</script>
+
+<h2>Incrementing Counter</h2>
+<span id="counterValue"></span>
+<script>
+    var counterStream = Bacon.interval(1000, 1);
+    var counter = counterStream.scan(0, function (x, y) {return x+y;});
+    counter.assign($('#counterValue'), 'text');
+</script>
+</body>
+</html>
