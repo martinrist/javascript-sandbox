@@ -62,7 +62,7 @@
 <label for="throttling-input">Input:</label>
 <input id="throttling-input">
 <label for="throttling-output">Output:</label>
-<span id="throttling-output">
+<span id="throttling-output"></span>
 <script>
     var inputText = $('#throttling-input').asEventStream('keyup').map(extractValueFromEvent).throttle(2000).toProperty();
     inputText.assign($('#throttling-output'), "text");
@@ -72,7 +72,7 @@
 <span id="counterValue"></span>
 <script>
     var counterStream = Bacon.interval(1000, 1);
-    var counter = counterStream.scan(0, function (x, y) {return x+y;});
+    var counter = counterStream.scan(0, function (x, y) {return x + y;});
     counter.assign($('#counterValue'), 'text');
 </script>
 </body>
