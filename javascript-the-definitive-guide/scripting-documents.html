@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scripting Documents - Sandbox</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<h1>Scripting Documents Sandbox</h1>
+<h2>Retrieving Elements by id</h2>
+<p id="para1">This is a paragraph that can be selected using its id</p>
+<button onclick="DOM.changeElementColourById('para1', '#FF0000');">Red</button>
+<button onclick="DOM.changeElementColourById('para1', '#00FF00');">Green</button>
+<button onclick="DOM.changeElementColourById('para1', '#0000FF');">Blue</button>
+<button onclick="DOM.changeElementColourById('para1', '#000000');">Black</button>
+
+<h2>Retrieving Elements by Tag Name</h2>
+<p>Here is a list of items:</p>
+<ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+    <li>Item 4</li>
+</ul>
+<button onclick="DOM.changeElementColourByTagName('li', '#FF0000');">Red</button>
+<button onclick="DOM.changeElementColourByTagName('li', '#00FF00');">Green</button>
+<button onclick="DOM.changeElementColourByTagName('li', '#0000FF');">Blue</button>
+<button onclick="DOM.changeElementColourByTagName('li', '#000000');">Black</button>
+
+<h2>Retrieving Elements by Class Name</h2>
+<p>Here is a list of items:</p>
+<ul>
+    <li class="odd">Item 1</li>
+    <li class="even">Item 2</li>
+    <li class="odd">Item 3</li>
+    <li class="even">Item 4</li>
+</ul>
+<button onclick="DOM.changeElementColourByClassName('odd', '#FF0000');">Red</button>
+<button onclick="DOM.changeElementColourByClassName('odd', '#00FF00');">Green</button>
+<button onclick="DOM.changeElementColourByClassName('odd', '#0000FF');">Blue</button>
+<button onclick="DOM.changeElementColourByClassName('odd', '#000000');">Black</button>
+
+</body>
+<script src="../js/javascript-the-definitive-guide/scripting-documents.js"></script>
+</html>
