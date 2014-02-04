@@ -20,8 +20,11 @@ window.DOM = ( ->
   changeElementColourById = (id, colour) ->
     changeElements(document.getElementById, id, changeElementColour(colour))
 
+  changeElementColourByCSSSelector = (selector, colour) ->
+    changeElements(document.querySelectorAll, selector, changeElementColour(colour))
+
   changeElementColourById: changeElementColourById
   changeElementColourByTagName: changeElementColourByTagName
   changeElementColourByClassName: changeElementColourByClassName
-
+  changeElementColourByCSSSelector : changeElementColourByCSSSelector
 )()

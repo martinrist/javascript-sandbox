@@ -39,6 +39,16 @@
 <button onclick="DOM.changeElementColourByClassName('odd', '#0000FF');">Blue</button>
 <button onclick="DOM.changeElementColourByClassName('odd', '#000000');">Black</button>
 
+<h2>Retrieving Elements by CSS Selector</h2>
+<label for="selector">Enter CSS Selector:</label>
+<input type="text" id="selector"/>
+<br/>
+<button onclick="DOM.changeElementColourByCSSSelector($('#selector').val(), '#FF0000');">Red</button>
+<button onclick="DOM.changeElementColourByCSSSelector($('#selector').val(), '#00FF00');">Green</button>
+<button onclick="DOM.changeElementColourByCSSSelector($('#selector').val(), '#0000FF');">Blue</button>
+<button onclick="DOM.changeElementColourByCSSSelector($('#selector').val(), '#000000');">Black</button>
+
 </body>
+<script src="https://code.jquery.com/jquery.js"></script>
 <script src="../js/javascript-the-definitive-guide/scripting-documents.js"></script>
 </html>
