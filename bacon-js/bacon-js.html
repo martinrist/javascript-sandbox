@@ -4,12 +4,18 @@
     <title>Bacon.js Sandbox</title>
     <script src="https://code.jquery.com/jquery.js"></script>
     <script type="text/javascript" src="../js/lib/Bacon.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<h1>Bacon.js Sandbox Examples</h1>
+<div class="page-header"><h1>Bacon.js Sandbox Examples</h1></div>
 
-<h2>Simple Event Stream</h2>
-<button id="clickMe">Click Me!</button>
+<div class="panel panel-default">
+    <div class="panel-heading"><h2 class="panel-title">Simple Event Stream</h2></div>
+    <div class="panel-body">
+        <button class="btn btn-default" id="clickMe"><span class="glyphicon glyphicon-fire"></span> Click Me!</button>
+    </div>
+</div>
 <script>
     var clickMeClickStream = $('#clickMe').asEventStream('click');
     clickMeClickStream.onValue(function () {
@@ -17,62 +23,108 @@
     });
 </script>
 
-<h2>Simple Event Stream with Value</h2>
-<label for="inputText">Input a value:</label>
-<input id="inputText"/>
-<label for="outputText">Output:</label><span id="outputText"></span>
+<div class="panel panel-default">
+    <div class="panel-heading"><h2 class="panel-title">Simple Event Stream with Value</h2></div>
+    <div class="panel-body">
+        <label for="inputText">Input</label>
+        <input class="form-control" id="inputText" placeholder="Enter text..."/>
+        <br/>
+        <label for="outputText">Output</label>
+        <br/>
+        <span id="outputText"></span>
+    </div>
+</div>
 <script>
-    var inputTextChangeStream = $('#inputText').asEventStream('change');
+    var inputTextChangeStream = $('#inputText').asEventStream('keyup');
     inputTextChangeStream.onValue(function (e) {
                 var text = $(e.target).val();
-                $('#outputText').text($('#outputText').text() + ' ' + text);
+                $('#outputText').text(text);
             }
     );
 </script>
 
-<h2>Combining Event Streams - 1</h2>
-<label for="inputText1">Enter text (1):</label>
-<input id="inputText1"/>
-<label for="inputText2">Enter text (2):</label>
-<input id="inputText2"/>
+<div class="panel panel-default">
+    <div class="panel-heading"><h2 class="panel-title">Combining Event Streams - Part 1</h2></div>
+    <div class="panel-body">
+        <label for="inputText1">Input 1</label>
+        <input class="form-control" id="inputText1" placeholder="Enter text..."/>
+        <br/>
+        <label for="inputText2">Input 2</label>
+        <input class="form-control" id="inputText2" placeholder="Enter text..."/>
+        <br/>
+        <label for="combiningOutputText">Output</label>
+        <br/>
+        <span id="combiningOutputText"></span>
+    </div>
+</div>
 <script>
-    var inputText1ChangeStream = $('#inputText1').asEventStream('change');
-    var inputText2ChangeStream = $('#inputText2').asEventStream('change');
+    var inputText1ChangeStream = $('#inputText1').asEventStream('keyup');
+    var inputText2ChangeStream = $('#inputText2').asEventStream('keyup');
     var combinedTextChangeStream = inputText1ChangeStream.merge(inputText2ChangeStream);
     combinedTextChangeStream.onValue(function (v) {
-        alert('Received value ' + $(v.target).val());
+        $('#combiningOutputText').text($(v.target).val());
     })
 </script>
 
-<h2>Combining Event Streams - 2</h2>
-<input id="text1"/><input id="text2"/> = <span id="result"></span>
+<div class="panel panel-default">
+    <div class="panel-heading"><h2 class="panel-title">Combining Event Streams - Part 2</h2></div>
+    <div class="panel-body">
+        <label for="text1">Input 1</label>
+        <input class="form-control" id="text1" placeholder="Enter text..."/>
+        <br/>
+        <label for="text2">Input 2</label>
+        <input class="form-control" id="text2" placeholder="Enter text..."/>
+        <br/>
+        <label for="result">Result</label>
+        <br/>
+        <span id="result"></span>
+    </div>
+</div>
+
 <script>
     function extractValueFromEvent(e) {
         return $(e.target).val();
     }
-    var x = $('#text1').asEventStream('change').map(extractValueFromEvent);
-    var y = $('#text2').asEventStream('change').map(extractValueFromEvent);
+    1
+    var x = $('#text1').asEventStream('keyup').map(extractValueFromEvent);
+    var y = $('#text2').asEventStream('keyup').map(extractValueFromEvent);
 
     concatStream = Bacon.combineWith(concat, x, y);
-    concatStream.onValue(function(result) { $('#result').text(result);});
-    function concat(x, y) { return x.concat(y); }
+    concatStream.onValue(function (result) {
+        $('#result').text(result);
+    });
+    function concat(x, y) {
+        return x.concat(y);
+    }
 </script>
 
-<h2>Throttling Event Streams</h2>
-<label for="throttling-input">Input:</label>
-<input id="throttling-input">
-<label for="throttling-output">Output:</label>
-<span id="throttling-output"></span>
+<div class="panel panel-default">
+    <div class="panel-heading"><h2 class="panel-title">Throttling Event Streams</h2></div>
+    <div class="panel-body">
+        <label for="throttling-input">Input</label>
+        <input class="form-control" id="throttling-input" placeholder="Enter text...">
+        <br/>
+        <label for="throttling-output">Output</label>
+        <br/>
+        <span id="throttling-output"></span>
+    </div>
+</div>
 <script>
-    var inputText = $('#throttling-input').asEventStream('keyup').map(extractValueFromEvent).throttle(2000).toProperty();
+    var inputText = $('#throttling-input').asEventStream('keyup').map(extractValueFromEvent).throttle(1000).toProperty();
     inputText.assign($('#throttling-output'), "text");
 </script>
 
-<h2>Incrementing Counter</h2>
-<span id="counterValue"></span>
+<div class="panel panel-default">
+    <div class="panel-heading"><h2 class="panel-title">Incrementing Counter</h2></div>
+    <div class="panel-body">
+        <span id="counterValue"></span>
+    </div>
+</div>
 <script>
     var counterStream = Bacon.interval(1000, 1);
-    var counter = counterStream.scan(0, function (x, y) {return x + y;});
+    var counter = counterStream.scan(0, function (x, y) {
+        return x + y;
+    });
     counter.assign($('#counterValue'), 'text');
 </script>
 </body>
