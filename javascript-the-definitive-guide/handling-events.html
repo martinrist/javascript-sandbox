@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Handling Events - Sandbox</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script type="text/javascript" src="../js/lib/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="page-header"><h1>Handling Events - Sandbox</h1></div>
+
+<div class="panel panel-default" onmousemove="panelMouseMove(event)">
+    <div class="panel-heading"><h2 class="panel-title">Mouse Events</h2></div>
+    <div class="panel-body" style="height: 200px; vertical-align: text-bottom">
+        Client Position = (<span id="x-pos"></span>, <span id="y-pos"></span>)
+    </div>
+    <script>
+    function panelMouseMove(e) {
+        $('#x-pos').text(e.clientX);
+        $('#y-pos').text(e.clientY);
+    }
+    </script>
+</div>
+</body>
+</html>
