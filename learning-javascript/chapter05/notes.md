@@ -6,35 +6,35 @@
 
 - _Abstract equality_ (`==` and `!=`) tests whether references can be coerced into having the same value:
 
-```javascript
-> 1 === 1
-true
+    ```javascript
+    > 1 === 1
+    true
 
-> 1 == 1
-true
+    > 1 == 1
+    true
 
-> 1 === "1"
-false
+    > 1 === "1"
+    false
 
-> 1 == "1"
-true
-```
+    > 1 == "1"
+    true
+    ```
 
 
 ## Comparing Numbers
 
 - Note that `NaN` is never equal to anything, including itself.  Instead, we should test using `isNaN()`:
 
-```javascript
-> NaN === NaN
-false
+    ```javascript
+    > NaN === NaN
+    false
 
-> NaN == NaN
-false
+    > NaN == NaN
+    false
 
-> isNaN(NaN)
-true
-```
+    > isNaN(NaN)
+    true
+    ```
 
 
 ## Truthy and Falsy Values

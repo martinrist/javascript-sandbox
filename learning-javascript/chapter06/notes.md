@@ -4,70 +4,70 @@
 
 - New feature in ES6 allows _destructuring_ of argument values:
 
-```javascript
-function getSentence({ subject, verb, object }) {
-    return `${subject} ${verb} ${object}`;
-}
+    ```javascript
+    function getSentence({ subject, verb, object }) {
+        return `${subject} ${verb} ${object}`;
+    }
 
-> getSentence({subject: "I", verb: "love", object: "JavaScript"});
-"I love JavaScript"
-```
+    > getSentence({subject: "I", verb: "love", object: "JavaScript"});
+    "I love JavaScript"
+    ```
 
 - Also new, the _spread operator_ (`...`) can be used to collect additional arguments at the end of functions:
 
-```javascript
-function addPrefix(prefix, ...words) {
-    // words is an array
-}
-```
+    ```javascript
+    function addPrefix(prefix, ...words) {
+        // words is an array
+    }
+    ```
 
 
 ## Default Arguments
 
 - In ES6, functions can specify _default values_ for arguments.  If an argument isn't provided, it takes the default value rather than `undefined`:
 
-```javascript
-function f(a, b = "default", c = 3) {
-    return `${a} - ${b} - ${c}`;
-}
+    ```javascript
+    function f(a, b = "default", c = 3) {
+        return `${a} - ${b} - ${c}`;
+    }
 
-> f(5, 6, 7)
-"5 - 6 - 7"
+    > f(5, 6, 7)
+    "5 - 6 - 7"
 
-> f(5, 6)
-"5 - 6 - 3"
+    > f(5, 6)
+    "5 - 6 - 3"
 
-> f(5)
-"5 - default - 3"
+    > f(5)
+    "5 - default - 3"
 
-> f()
-"undefined - default - 3"
-```
+    > f()
+    "undefined - default - 3"
+    ```
 
 
 ## Object Methods
 
 - Functions specified as properties of objects are called _methods_ and can be called from a reference to the object:
 
-```javascript
-const o = { name: "Wallace",
-            bark: function() { return "Woof!"; }
-          }
+    ```javascript
+    const o = { name: "Wallace",
+                bark: function() { return "Woof!"; }
+              }
 
-> o.bark()
-"Woof!"
-```
+    > o.bark()
+    "Woof!"
+    ```
 
 - ES6 has a special shorthand syntax for declaring methods, that misses out the `function` keyword:
 
-```javascript
-const o = { name: "Wallace",
-            bark() { return "Woof!"; }
-          }
+    ```javascript
+    const o = { name: "Wallace",
+                bark() { return "Woof!"; }
+              }
 
-> o.bark()
-"Woof!"
-```
+    > o.bark()
+    "Woof!"
+    ```
 
 
 ## The `this` Keyword
