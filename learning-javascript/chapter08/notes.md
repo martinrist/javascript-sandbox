@@ -162,3 +162,75 @@
     arr.sort((a, b) => a.name[1] < b.name[1]); // arr sorted reverse alphabetically
                                                // by second letter of name property
     ```
+
+
+## Searching in Arrays
+
+- `indexOf` / `lastIndexOf` returns index of first / last  matching (`===`) item, or `-1` if no match:
+
+    ```javascript
+    > [1, 2, 3].indexOf(2)
+    1
+
+    > [1, 2, 3].indexOf(4)
+    -1
+
+    > [1, 2, 3].indexOf("2")
+    -1
+    ```
+
+- `findIndex` takes a matching predicate, returning index of first match, or `-1` if no match:
+
+    ```javascript
+    > [1, 2, 3].findIndex(x => x === 2)
+    1
+
+    > [1, 2, 3].findIndex(x => x > 2)
+    2
+
+    > [1, 2, 3].findIndex(x => x == "2")
+    1
+    ```
+
+- `find` is like `findIndex`, but returns the matched object, not the index, or `null` if not found.
+
+- The predicate passed to `find` and `findIndex` has up to three arguments:
+    - `element` - the current element being tested
+    - `index` - the index of the current element being tested
+    - `array` - the whole array
+
+- `some` returns `true` if it finds at least one element matching the predicate.
+
+    ```javascript
+    > [1, 2, 3].some(x => x % 2 === 0)
+    true
+
+    > [1, 2, 3].some(x => x > 3)
+    false
+    ```
+
+- `every` returns `true` if _every_ element matches the predicate:
+
+    ```javascript
+    > [1, 2, 3].every(x => x % 2 ===)
+    false
+
+    > [1, 2, 3].every(x => x < 4)
+    true
+    ```
+
+
+## Fundamental Operations - `map` and `filter`
+
+- `map` takes a function that transforms elements in the array:
+
+    ```javascript
+    > [1, 2, 3].map(x => -x)
+    [-1, -2, -3]
+
+    > function double(x) { return x * 2; }
+    > [1, 2, 3].map(double)
+    [2, 4, 6]
+    ```
+
+- `map` gets called with three arguments - `element`, `index` and `array`, just like `find` / `findIndex`.
