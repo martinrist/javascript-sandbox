@@ -1,3 +1,4 @@
+/* global $, document, paper, window, Tool, Shape, PointText */
 $(document).ready(function() {
     'use strict';
 
@@ -17,7 +18,7 @@ $(document).ready(function() {
     tool.onMouseDown = function(event) {
         var c = Shape.Circle(event.point, 20);
         c.fillColor = 'green';
-    }
+    };
 
     paper.view.draw();
 
