@@ -220,7 +220,7 @@
     ```
 
 
-## Fundamental Operations - `map` and `filter`
+## Fundamental Operations - `map`, `filter` and `reduce`
 
 - `map` takes a function that transforms elements in the array:
 
@@ -233,4 +233,41 @@
     [2, 4, 6]
     ```
 
-- `map` gets called with three arguments - `element`, `index` and `array`, just like `find` / `findIndex`.
+
+- `filter` takes a function to use as a predicate and returns array containing elements for which the predicate evaluates to `true`:
+
+    ```javascript
+    > [1, 2, 3, 4].filter(x => x % 2 === 0)
+    [2, 4]
+    ```
+
+- `map` and `filter` are called with three arguments - `element`, `index` and `array`, just like `find` / `findIndex`.
+
+- `reduce` iterates through the array and accumulates values.  The reduction function is passed an accumulator along with `element`, `index` and `array`, and returns a new value for the accumulator:
+
+    ```javascript
+    > [1, 2, 3].reduce((a, x) => a += x, 0)
+    6
+
+    > [1, 2, 3].reduce((a, x) => a += x, 10)    // 2nd arg is an initial value
+    16
+    ```
+
+- If an element has been deleted, or never assigned (i.e. it is `undefined`), `map`, `filter` and `reduce` do not invoke the map / predicate / reducer:
+
+    ```javascript
+    > const arr = [1, 2, 3, 4, 5]
+    > delete arr[2]
+    > arr.map(x => 0)
+    [0, 0, , 0, 0]
+    ```
+
+
+## String Joining
+
+- `Array.prototype.join` takes a separator argument and returns a string formed by joining the array elements with the separator:
+
+    ```javascript
+    > [1, 2, null, "foo", 5.5].join('-')
+    > '1-2--foo-5.5'
+    ```
