@@ -8,11 +8,13 @@ class Car {
 
     shift(gear) {
         if (this.userGears.indexOf(gear) < 0)
-                throw new Error(`Invalid gear: ${gear}`);
+            throw new Error(`Invalid gear: ${gear}`);
         this.userGear = gear;
     }
 }
 
+const tesla = new Car("Tesla", "Model S");
+console.log(tesla);
 
 class Car2 {
     // Uses dynamic properties
@@ -27,7 +29,10 @@ class Car2 {
 
     set userGear(value) {
         if (this._userGears.indexOf(value) < 0)
-                throw new Error(`Invalid gear: ${value}`);
+            throw new Error(`Invalid gear: ${value}`);
         this._userGear = value;
     }
 }
+
+const mondeo = new Car2("Ford", "Mondeo");
+console.log(mondeo);
