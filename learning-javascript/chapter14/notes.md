@@ -96,4 +96,52 @@
     }
     ```
 
-- 
+- We could just call `countdown()` and ignore the returned promise altogether, or assign it to a variable and call handlers on it like `then()` and `catch()`:
+
+    ```javascript
+    // Starts printing out countdown
+    > const p = countdown(5);
+
+    // Execute code after promise is complete
+    > p.then(function() {
+                console.log("Countdown completed successfully");
+            });
+
+    // Handle errors
+    p.catch(function(err) {
+                console.log("Countdown experienced an error: " + err.message);
+            });
+    ```
+
+- To get a promise to raise an error, call the `reject()` callback function with an `Error`:
+
+    ```javascript
+    // e.g. to create a superstitious countdown that won't count a 13
+    if (i===13) return reject(new Error("I DON'T WANT TO COUNT 13"));
+
+    > countdown(14).catch(function(err) {
+            console.log("Countdown had an error: " + err.message);
+        });
+    ```
+
+- Promises can be _chained_ - when one promise is fulfilled, you can have it immediately invoke another function that returns a promise:
+
+    ```javascript
+
+    function launch() {
+        return new Promise(function(resolve, reject) {
+            console.log("Lift off!");
+            setTimeout(function() {
+            resolve("In orbit!");
+        }, 2 * 1000);
+    });
+
+    > countdown(5)
+            .then(launch)
+            .then(function(msg) {
+                console.log(msg);
+            })
+            .catch(function(err) {
+                console.error("Houston, we have a problem...");
+            })
+    ```
