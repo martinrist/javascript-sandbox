@@ -1,9 +1,11 @@
+/*global Rx, QUAKE_URL, L, map*/
+
 var quakes = Rx.Observable
     .interval(1000)
     .flatMap(function() {
         return Rx.DOM.jsonpRequest({
             url: QUAKE_URL,
-            jsonpCallback: 'eqfeed_callback'
+            jsonpCallback: "eqfeed_callback"
         }).retry(3);
     })
     .flatMap(function(result) {
@@ -14,20 +16,20 @@ var quakes = Rx.Observable
 quakes.subscribe(function(quake) {
     var coords = quake.geometry.coordinates;
     var size = quake.properties.mag * 10000;
-    var circle = L.circle([coords[1], coords[0]], size, { color: '#0000ff' }).addTo(map);
+    var circle = L.circle([coords[1], coords[0]], size, { color: "#0000ff" }).addTo(map);
     quakeLayer.addLayer(circle);
     codeLayers[quake.id] = quakeLayer.getLayerId(circle);
 });
 
 function makeRow(props) {
     console.log(props);
-    var row = document.createElement('tr');
+    var row = document.createElement("tr");
     row.id = props.net + props.code;
 
     var date = new Date(props.time);
     var time = date.toString();
     [props.place, props.mag, time].forEach(function(text) {
-        var cell = document.createElement('td');
+        var cell = document.createElement("td");
         cell.textContent = text;
         row.appendChild(cell);
     });
@@ -35,9 +37,9 @@ function makeRow(props) {
     return row;
 }
 
-var table = document.getElementById('quakes_info');
+var table = document.getElementById("quakes_info");
 quakes
-    .pluck('properties')
+    .pluck("properties")
     .map(makeRow)
     .bufferWithTime(500)
     .filter(function(rows) { return rows.length > 0; })
@@ -47,7 +49,7 @@ quakes
             var circle = quakeLayer.getLayer(codeLayers[row.id]);
 
             isHovering(row).subscribe(function(hovering) {
-                circle.setStyle({ color: hovering ? '#ff0000' : '#0000ff'});
+                circle.setStyle({ color: hovering ? "#ff0000" : "#0000ff"});
             });
 
             Rx.DOM.click(row).subscribe(function() {
