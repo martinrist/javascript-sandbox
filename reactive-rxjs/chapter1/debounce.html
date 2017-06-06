@@ -38,23 +38,23 @@
     }
 
     const button = document.getElementById("clickMeButton");
-    const debounceTimeInput = document.getElementById("debounceTime");
+    const debounceTime = document.getElementById("debounceTime");
 
-    const rawOutput = document.getElementById("rawLog");
-    const debouncedOutput = document.getElementById("debouncedLog");
+    const rawLog = document.getElementById("rawLog");
+    const debouncedLog = document.getElementById("debouncedLog");
 
     // Streams
     const rawClickStream = Rx.Observable.fromEvent(button, "click");
     const domReadyStream = Rx.DOM.ready();
-    const debounceTimeStream = Rx.Observable.fromEvent(debounceTimeInput, "change");
+    const debounceTimeStream = Rx.Observable.fromEvent(debounceTime, "change");
     const debouncedClickStream =
         Rx.Observable.merge(
             debounceTimeStream,
             domReadyStream)
-        .switchMap(() => rawClickStream.debounce(parseInt(debounceTimeInput.value)));
+        .switchMap(() => rawClickStream.debounce(parseInt(debounceTime.value)));
 
-    rawClickStream.subscribe(() => appendOutput(rawOutput, "Raw click at " + new Date()));
-    debouncedClickStream.subscribe(() => appendOutput(debouncedOutput, "Debounced click at " + new Date()));
+    rawClickStream.subscribe(() => appendOutput(rawLog, "Raw click at " + new Date()));
+    debouncedClickStream.subscribe(() => appendOutput(debouncedLog, "Debounced click at " + new Date()));
 
     // Counters
     const rawClickCount = rawClickStream.map(() => 1).scan(total => total + 1);
