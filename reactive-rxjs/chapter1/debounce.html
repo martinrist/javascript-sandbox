@@ -56,11 +56,13 @@
     rawClickStream.subscribe(() => appendOutput(rawLog, "Raw click at " + new Date()));
     debouncedClickStream.subscribe(() => appendOutput(debouncedLog, "Debounced click at " + new Date()));
 
+    const toCount = s => s.map(() => 1).scan(total => total + 1);
+
     // Counters
-    const rawClickCount = rawClickStream.map(() => 1).scan(total => total + 1);
+    const rawClickCount = toCount(rawClickStream);
     rawClickCount.subscribe((e) => document.getElementById("rawTotal").value = e);
 
-    const debouncedClickCount = debouncedClickStream.map(() => 1).scan(total => total + 1);
+    const debouncedClickCount = toCount(debouncedClickStream);
     debouncedClickCount.subscribe((e) => document.getElementById("debouncedTotal").value = e);
 
 </script>
