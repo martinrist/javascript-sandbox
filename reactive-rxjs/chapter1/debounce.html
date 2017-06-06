@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>Debounce example</title>
     <script src="../rx.all-4.1.0.js"></script>
+    <script src="../rx.dom-7.0.3.js"></script>
 </head>
-<body onload="document.getElementById('debounceTime').dispatchEvent(new Event('change'));">
+<body>
     <p><label for="debounceTime">Debounce time:</label><input id="debounceTime" type="number" value="1000"/></p>
     <p><button id="clickMeButton">Click me!</button></p>
 
@@ -44,8 +45,13 @@
 
     // Streams
     const rawClickStream = Rx.Observable.fromEvent(button, "click");
+    const domReadyStream = Rx.DOM.ready();
     const debounceTimeStream = Rx.Observable.fromEvent(debounceTimeInput, "change");
-    const debouncedClickStream = debounceTimeStream.switchMap(() => rawClickStream.debounce(parseInt(debounceTimeInput.value)));
+    const debouncedClickStream =
+        Rx.Observable.merge(
+            debounceTimeStream,
+            domReadyStream)
+        .switchMap(() => rawClickStream.debounce(parseInt(debounceTimeInput.value)));
 
     rawClickStream.subscribe(() => appendOutput(rawOutput, "Raw click at " + new Date()));
     debouncedClickStream.subscribe(() => appendOutput(debouncedOutput, "Debounced click at " + new Date()));
