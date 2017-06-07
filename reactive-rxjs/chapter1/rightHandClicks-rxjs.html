@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log first 10 clicks on the right-hand side of the document</title>
+    <script src="../rx.all-4.1.0.js"></script>
+</head>
+<body></body>
+<script>
+   Rx.Observable.fromEvent(document, "click")
+       .filter(c => c.clientX > window.innerWidth / 2)
+       .take(10)
+       .subscribe(c => console.log(c.clientX, c.clientY));
+</script>
+</html>
