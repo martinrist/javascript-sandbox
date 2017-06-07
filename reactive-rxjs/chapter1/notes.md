@@ -68,4 +68,33 @@
     });
     ```
 
+## Of Observers and Iterators
 
+- RxJS's `Observables` are based on a combination of two patterns:
+    - The [_Observer_ pattern](http://en.wikipedia.org/wiki/Observer_pattern)
+    - The [_Iterator_ pattern](https://en.wikipedia.org/wiki/Iterator_pattern)
+
+- In the _Observer_ pattern, we have an object called a _Producer_ that keeps an internal list of _Listeners_ subscribed to it:
+    - _Listeners_ are notified when the state of the _Producer_ changes.
+    - _Producers_ are also called _Subjects_, but RxJS has its own _Subject_ which is different.
+    - _Observer_ therefore decouples producers and listeners.
+
+- The _Iterator_ pattern defines an object that provides a consumer with an easy way to traverse its contents, hiding its implementation:
+    - A typical iterator has a `next()` method to retrieve the next item, and `hasNext()` to check if there are any items left.
+
+
+## The Rx Pattern and the Observable
+
+- The _Rx Pattern_ combines both the _Observer_ and _Iterable_ patterns to produce an _Observable sequence_, or _Observable_:
+    - _Observables_ emit their values in order, like an iterator.
+    - The _Observable_ 'pushes' values to consumers as they become available, like _Producers_.
+
+- Another way of thinking about this is that an _Observable_ is a sequence whose items become available over time:
+    - An _Observer_ subscribed to an _Observable_ will received the values of the sequence as they become available, without having to request them.
+
+- _Observables_ fill a gap by being a way of accessing asynchronous sequences of multiple items, as shown in the following table:
+
+|                    |single items          |multiple items            |
+|--------------------|----------------------|--------------------------|
+|synchronous / pull  |`T getData()`         |`Iterable<T> getData()`   |
+|asynchronous / push |`Future<T> getData()` |`Observable<T> getData()` |
