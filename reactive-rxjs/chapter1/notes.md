@@ -98,3 +98,90 @@
 |--------------------|----------------------|--------------------------|
 |synchronous / pull  |`T getData()`         |`Iterable<T> getData()`   |
 |asynchronous / push |`Future<T> getData()` |`Observable<T> getData()` |
+
+- Observables have the following main differences compared to the traditional Observer pattern:
+    - Observables don't start streaming items until they have at least one Observer subscribed to them.
+    - Like Iterators, an Observable can signal when the sequence is completed.
+
+
+## Creating Observables
+
+- Many ways to create an Observable, the `create` operator being the most obvious.  It takes a callback that accepts an `observer` as a parameter and defines sequence of emitted values:
+
+    ```javascript
+    var observable = Rx.Observable.create(function(observer) {
+        observer.onNext("Simon");
+        observer.onNext("Jen");
+        observer.onNext("Sergi");
+        observer.onCompleted();
+    });
+    ```
+
+- _Observers_ listen to Observables, doing so by implementing three methods:
+    - `onNext` - called when the Observable emits a new value.
+    - `onError` - called when an error occurs in the Observable.
+    - `onCompleted` - called when the Observable has signalled that there is no more data.  After a call to `onCompleted`, there are guaranteed to be no more calls to `onNext` or `onError`.
+
+- We can create a new Observer by calling `Rx.Observer.create()` with handler functions for the three cases:
+
+    ```javascript
+    var observer = Rx.Observer.create(
+        function onNext(x)     { console.log("Next: " + x); },
+        function onError(err)  { console.log("Error: " + err); }.
+        function onCompleted() { console.log("Completed"); }
+    );
+    ```
+
+- To connect the Observer to the Observable, we call `subscribe`:
+
+    ```javascript
+    observable.subscribe(observer);
+    ```
+
+- Methods that transform or query sequences are called _operators_:
+    - Located in the static `Rx.Observable` object and in Observable instances.
+    - e.g. `create`
+
+- RxJS has lots of operators that create Observables for common sources, e.g.:
+    - `empty()` - emits no items but terminates normally.
+    - `from(o)` - converted from another objects (e.g. iterables).
+    - `interval(ms)` - emits a sequence of integers spaced by a time interval.
+    - `just(o)` - emits a single object.
+    - `range(n, m)` - emits a range of sequential integers.
+    - `timer(ms)` - emits a single item after a given delay.
+
+- There is an [RxJS DOM](https://github.com/Reactive-Extensions/RxJS-DOM) library that also provides ways of creating Observables from DOM-related sources:
+    - `get(url)` - from an Ajax call.
+    - 
+
+- Generally recommended to have all data in Observables:
+    - e.g. if you have an array whose items need to be used in combination with other data, use `from` to create an Observable from the array:
+
+    ```javascript
+    Rx.Observable.from(["Adria", "Jen", "Sergi"])
+        .subscribe(x => console.log("Next: " + x));
+    ```
+
+- If working in the browser, you can create an Observable from an event:
+
+    ```javascript
+    Rx.Observable.fromEvent(document, "mousemove")
+        .subscribe(e => console.log(e.clientX, e.clientY);
+    ```
+
+- We can transform existing Observables.  Since Observables are immutable, the new Observables are then independent and can be used for different tasks:
+
+    ```javascript
+    // All mousemove events are logged with their coordinates
+    const allMoves = Rx.Observable.fromEvent(document, "mousemove");
+    allMoves.subscribe(e => console.log(e.clientX, e.clientY));
+
+    // Filtered Observable that only has events where the mouse is on the right
+    const movesOnRight = allMoves.filter(e => e.clientX > window.innerWidth / 2);
+    movesOnRight.subscribe(e => console.log("Mouse is on the right"));
+    ```
+
+- Observers can be created from callback functions - either vanilla (using `fromCallback`) or Node.js-style (using `fromNodeCallback`) where the error argument is first:
+
+    ```javascript
+
