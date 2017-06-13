@@ -6,8 +6,11 @@
 
 ![Marble Diagram](images/marbleDiagram.png)
 
-- Some examples of marble diagrams for the `range` and `merge` operators:
+- Example marble diagrams for the `range` operator:
 
 ![Marble Diagram - range](images/rangeDiagram.png)
+
+- Example marble diagrams for the `merge` operator:
+
 ![Marble Diagram - merge](images/mergeDiagram.png)
 
