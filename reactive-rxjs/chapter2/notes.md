@@ -36,3 +36,30 @@
     const doubled = src.map(i => i * 2);
     doubled.subscribe(i => console.log(i));
     ```
+
+- `filter` takes an Observable and a predicate function.  It tests each element in the Observable and returns a new Observable of all the elements for which the predicate evaluates to `true`:
+
+![Marble Diagram - filter](images/filterDiagram.png)
+
+- `reduce` (a.k.a. `fold`) takes an Observable and returns a new one that contains only a single item - the result of applying the _accumulating function_ over each element:
+
+![Marble Diagram - reduce](images/reduceDiagram.png)
+
+- The accumulating function takes two arguments, often called `acc` (accumulator) and `x` (next value), and returns the new value of the accumulator:
+
+    ```javascript
+    const range = Rx.Observable.range(1, 10);
+    const sum = range.reduce((acc, x) => acc + x);
+
+    // Can also pass in an initial argument for `reduce`
+    const count = range.reduce(((acc, x) => acc + 1)), 0);
+    ```
+
+- Can also use `scan`, which is a variant of `reduce` that emits intermediate values of the accumulation - useful for reducing over infinite Observables.
+
+- In some cases, you can have an Observable whose results are more Observables?
+    - Most of time you want to 'flatten' items in the nested Observables into a single sequence.
+    - `flatMap` takes an Observable `A` and a mapping function that creates a new Observable from each item in `A`.
+    - It applies the mapping functions, then flatten the emissions from those into a single Observable.
+
+![Marble Diagram - flatMap](images/flatMapDiagram.png)
