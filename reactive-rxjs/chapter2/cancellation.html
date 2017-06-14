@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cancelling</title>
+    <script src="../rx.all-4.1.0.js"></script>
+</head>
+<body>
+<label for="counter">Counter:</label><input id="counter"/>
+<button id="stopCounter">Stop!</button>
+<button id="startCounter">Start!</button>
+</body>
+<script>
+    const timer = Rx.Observable.interval(1000);
+    const counter = timer.scan(((acc, x) => acc + 1), 0);
+
+    const stopClicks = Rx.Observable.fromEvent(document.getElementById("stopCounter"), "click");
+    const startClicks = Rx.Observable.fromEvent(document.getElementById("startCounter"), "click");
+
+    var counterSubscription = counter.subscribe(e =>
+        document.getElementById("counter").value = e);
+
+    stopClicks.subscribe(e =>
+        counterSubscription.dispose());
+
+    startClicks.subscribe(e =>
+        counterSubscription = counter.subscribe(e =>
+            document.getElementById("counter").value = e));
+</script>
+</html>

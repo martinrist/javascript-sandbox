@@ -63,3 +63,50 @@
     - It applies the mapping functions, then flatten the emissions from those into a single Observable.
 
 ![Marble Diagram - flatMap](images/flatMapDiagram.png)
+
+
+## Cancelling Sequences
+
+- One disadvantage of using callbacks / promises for async communications is that they can't easily be cancelled (althoug some promise implementations _do_ support cancellation).
+
+- We can cancel Observables either _implicitly_ or _explicitly_.
+
+- Explicit cancellation is done using a _Disposable_, which is returned when we create a subscription.  We can then call `dispose()` on the result:
+
+    ```javascript
+    const counter = Rx.Observable.interval(1000);
+
+    const subscription1 = counter.subscribe(i => console.log("Subscription 1: ", i));
+    const subscription2 = counter.subscribe(i => console.log("Subscription 2: ", i));
+
+    setTimeout(() => {
+        console.log("Cancelling subscription 2!");
+        subscription2.dispose();
+    }, 2000);
+    ````
+
+- Note that, when cancelled, subscribed Observer's don't have their `onComplete()` method called.
+
+- Most of the time, operators will implicitly and automatically cancel subscriptions for you, e.g.:
+    - `range` and `take` will cancel the subscription when the sequence finishes or the operator conditions are met.
+
+- When using Observables that wrap external APIs that don't provide cancellation, the Observable will stop emitting when cancelled, but not necessarily the underlying API.
+
+- For example:
+
+    ```javascript
+    const p = new Promise((resolve, reject) =>
+        // This still gets called, even after the subscription to it is disposed
+        setTimeout(resolve, 5000)
+    );
+    p.then(() => console.log("Potential side-effect!"));
+
+    const subscription = Rx.Observable.fromPromise(p)
+        .subscribe(() => console.log("Observable resolved!"));
+
+    subscription.dispose();
+    ```
+
+- So, it's important to know the details of external APIs that are used in Observables:
+    - You might think you've cancelled a sequence, but the underlying API continues running.
+    - This may lead to later side-effects and subtle errors.
