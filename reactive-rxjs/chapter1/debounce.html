@@ -56,7 +56,7 @@
     rawClickStream.subscribe(() => appendOutput(rawLog, "Raw click at " + new Date()));
     debouncedClickStream.subscribe(() => appendOutput(debouncedLog, "Debounced click at " + new Date()));
 
-    const toCount = s => s.startWith(0).scan((total, e) => total + 1);
+    const toCount = s => s.scan(((total, e) => total + 1), 0);
 
     // Counters
     const rawClickCount = toCount(rawClickStream);
