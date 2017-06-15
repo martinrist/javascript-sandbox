@@ -110,3 +110,35 @@
 - So, it's important to know the details of external APIs that are used in Observables:
     - You might think you've cancelled a sequence, but the underlying API continues running.
     - This may lead to later side-effects and subtle errors.
+
+## Handling Errors
+
+- Conventional error handling mechanisms using try / catch are synchronous, so they can't be used in callbacks:
+    - The handler would run before any async code, so wouldn't be able to catch errors.
+    - With callbacks, this was solved by passing the error as a parameter to the callback function.
+
+- Errors in Observables are handled by the `onError` function in subscribed Observers:
+
+    ```javascript
+    observable.subscribe(
+        x    => console.log("Next: ", x),      // onNext()
+        err  => console.log(err.message),      // onError()
+        ()   => console.log("Completed"));     // onCompleted()
+    ```
+
+- If `onError()` is triggered, then `onCompleted()` will not fire for the same subscription.
+
+- As an alternative to handling `onError()`, the `catch` operator on an Observable returns a new Observable that replaces the original one if an error is raised in the original.
+
+![Marble Diagram - catch](images/catchDiagram.png)
+
+- Instead of handling an error immediately, we can retry a data request, e.g.:
+
+    ```javascript
+    // This will try to retrieve the URL up to 5 times before erroring
+    Rx.DOM.get("/products").retry(5).subscribe(
+        x    => console.log("Next: ", x),      // onNext()
+        err  => console.log(err.message),      // onError());
+    ```
+
+- Note that `retry` will always retry the whole sequence again, even if some of the items didn't error.
