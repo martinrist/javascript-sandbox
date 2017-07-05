@@ -8,6 +8,8 @@
   },
   "author": "",
   "dependencies": {
-    "rx": "latest"
+    "rx": "latest",
+    "rx-dom": "latest",
+    "xmlhttprequest": "latest"
   }
 }
