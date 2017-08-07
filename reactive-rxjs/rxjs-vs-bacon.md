@@ -5,6 +5,7 @@
 * [Why Bacon?](https://github.com/baconjs/bacon.js#why-bacon)
 * [BaconJS for RxJS Users](https://baconjs.github.io/api.html#for-rxjs-users)
 * [RxJS for Bacon.js Users](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/mapping/bacon.js/whyrx.md)
+* ['Reactive JavaScript Programming' video](https://www.safaribooksonline.com/library/view/reactive-javascript-programming/9781787284913/)
 
 ## Comparison Points
 
