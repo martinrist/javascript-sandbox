@@ -54,4 +54,3 @@ function makeRow(props) {
 
     return row;
 }
-
