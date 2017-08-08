@@ -25,29 +25,28 @@ function initialise() {
     });
 
     const table = document.getElementById("quakes_info");
-    quakes
-        .pluck("properties")
-        .map(makeRow)
-        .bufferWithTime(500)
-        .filter(rows => rows.length > 0)
-        .map(rows => {
-            const fragment = document.createDocumentFragment();
-            rows.forEach(row => {
-                const circle = quakeLayer.getLayer(codeLayers[row.id]);
-                isHovering(row).subscribe(hovering => circle.setStyle( { color: hovering ? "#ff0000" : "#0000ff"}));
-                Rx.DOM.click(row).subscribe(() => theMap.panTo(circle.getLatLng()));
-                fragment.appendChild(row)
-            });
-            return fragment;
-        })
-        .subscribe(fragment => {
-            console.log("Adding fragment of size " + fragment.children.length + " to table");
-            table.appendChild(fragment);
-        });
-
     const codeLayers = {};
     const quakeLayer = L.layerGroup([]).addTo(theMap);
 
+    getRowFromEvent(table, "mouseover")
+        .pairwise()
+        .subscribe(rows => {
+            const prevCircle = quakeLayer.getLayer(codeLayers[rows[0].id]);
+            const currCircle = quakeLayer.getLayer(codeLayers[rows[1].id]);
+            prevCircle.setStyle({color: "#0000ff"});
+            currCircle.setStyle({color: "#ff0000"});
+        });
+
+    getRowFromEvent(table, "click")
+        .subscribe(row => {
+            const circle = quakeLayer.getLayer(codeLayers[row.id]);
+            theMap.panTo(circle.getLatLng());
+        });
+
+    quakes
+        .pluck("properties")
+        .map(makeRow)
+        .subscribe(row => table.appendChild(row));
 }
 
 Rx.DOM.ready().subscribe(initialise());
@@ -68,9 +67,12 @@ function makeRow(props) {
     return row;
 }
 
-function isHovering(element) {
-    const over = Rx.DOM.mouseover(element).map(identity(true));
-    const out = Rx.DOM.mouseout(element).map(identity(false));
-
-    return over.merge(out);
+function getRowFromEvent(table, event) {
+    return Rx.Observable.fromEvent(table, event)
+        .filter(event => {
+            const el = event.target;
+            return el.tagName === "TD" && el.parentNode.id.length;
+        })
+        .pluck("target", "parentNode")
+        .distinctUntilChanged();
 }
