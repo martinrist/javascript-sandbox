@@ -1,5 +1,7 @@
 /*global Rx, QUAKE_URL, L, theMap*/
 
+const identity = Rx.helpers.identity;
+
 function initialise() {
     const quakes = Rx.Observable
         .interval(5000)
@@ -17,7 +19,9 @@ function initialise() {
     quakes.subscribe(quake => {
         const coords = quake.geometry.coordinates;
         const size = quake.properties.mag * 10000;
-        L.circle([coords[1], coords[0]], size).addTo(theMap);
+        const circle = L.circle([coords[1], coords[0]], size).addTo(theMap);
+        quakeLayer.addLayer(circle);
+        codeLayers[quake.id] = quakeLayer.getLayerId((circle));
     });
 
     const table = document.getElementById("quakes_info");
@@ -28,13 +32,22 @@ function initialise() {
         .filter(rows => rows.length > 0)
         .map(rows => {
             const fragment = document.createDocumentFragment();
-            rows.forEach(row => fragment.appendChild(row));
+            rows.forEach(row => {
+                const circle = quakeLayer.getLayer(codeLayers[row.id]);
+                isHovering(row).subscribe(hovering => circle.setStyle( { color: hovering ? "#ff0000" : "#0000ff"}));
+                Rx.DOM.click(row).subscribe(() => theMap.panTo(circle.getLatLng()));
+                fragment.appendChild(row)
+            });
             return fragment;
         })
         .subscribe(fragment => {
             console.log("Adding fragment of size " + fragment.children.length + " to table");
             table.appendChild(fragment);
         });
+
+    const codeLayers = {};
+    const quakeLayer = L.layerGroup([]).addTo(theMap);
+
 }
 
 Rx.DOM.ready().subscribe(initialise());
@@ -53,4 +66,11 @@ function makeRow(props) {
     });
 
     return row;
+}
+
+function isHovering(element) {
+    const over = Rx.DOM.mouseover(element).map(identity(true));
+    const out = Rx.DOM.mouseout(element).map(identity(false));
+
+    return over.merge(out);
 }
