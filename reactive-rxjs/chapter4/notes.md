@@ -23,3 +23,21 @@
 - If we have two subscribers that depend on a cold Observable which invokes a network call, then that network call will be made once per subscriber:
     - Use `share` to automatically create a subscription to the Observable when the number of Observers goes from zero to one.
     - This means we don't have to call `publish`.
+
+
+## Buffering
+
+- `bufferWithTime` buffers incoming values on a stream and releases them as an array every 'x' period of time:
+
+    ```javascript
+    // `source` is a 'cold' Observable that yields a value every tenth of a second
+    const source = Rx.Observable.interval(100);
+
+    // We buffer these so we get an array of items every second, rather than individual items
+    const bufferedSource = source.bufferWithTime(1000);
+
+    bufferedSource.subscribe(x => console.log("Got value: " + x));
+    ```
+
+- This can be used, for example, to batch together DOM updates (e.g. adding rows to tables):
+    - Can also use `bufferWithCount` to buffer based on a count of events.

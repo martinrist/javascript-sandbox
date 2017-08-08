@@ -24,7 +24,17 @@ function initialise() {
     quakes
         .pluck("properties")
         .map(makeRow)
-        .subscribe(row => table.appendChild(row));
+        .bufferWithTime(500)
+        .filter(rows => rows.length > 0)
+        .map(rows => {
+            const fragment = document.createDocumentFragment();
+            rows.forEach(row => fragment.appendChild(row));
+            return fragment;
+        })
+        .subscribe(fragment => {
+            console.log("Adding fragment of size " + fragment.children.length + " to table");
+            table.appendChild(fragment);
+        });
 }
 
 Rx.DOM.ready().subscribe(initialise());
