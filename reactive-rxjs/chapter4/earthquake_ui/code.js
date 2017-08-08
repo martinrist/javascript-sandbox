@@ -3,13 +3,16 @@
 function initialise() {
     const quakes = Rx.Observable
         .interval(5000)
-        .flatMap(() =>
-            Rx.DOM.jsonpRequest({
+        .flatMap(() => {
+            console.log("Making call to " + QUAKE_URL);
+            return Rx.DOM.jsonpRequest({
                 url: QUAKE_URL,
                 jsonpCallback: "eqfeed_callback"
-            }).retry(3))
+            }).retry(3);
+        })
         .flatMap(result => Rx.Observable.from(result.response.features))
-        .distinct(quake => quake.properties.code);
+        .distinct(quake => quake.properties.code)
+        .share();
 
     quakes.subscribe(quake => {
         const coords = quake.geometry.coordinates;

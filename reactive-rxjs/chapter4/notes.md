@@ -19,3 +19,7 @@
     - Creates a new Observable that acts as a proxy to the original one.
     - The new Observable has a `connect` method to start receiving values.
     - Allows us to subscribe to it before it starts running.
+
+- If we have two subscribers that depend on a cold Observable which invokes a network call, then that network call will be made once per subscriber:
+    - Use `share` to automatically create a subscription to the Observable when the number of Observers goes from zero to one.
+    - This means we don't have to call `publish`.
