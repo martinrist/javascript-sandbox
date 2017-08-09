@@ -1,7 +1,6 @@
 # Remark Web Server
 
-To start up the simple web server for the RemarkJS presentation:
+To launch the presentation:
 
-```bash
-python -m SimpleHTTPServer 8000
-```
+1. Run `./startWebServer.sh`.
+2. Navigate to [the start page](http://localhost:8000).

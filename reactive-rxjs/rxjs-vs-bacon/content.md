@@ -29,16 +29,41 @@ public static void main(String[] args) {
 
 ---
 
+# Example with Links
+
+* Text 1
+* Text 2
+* Text 3
+* <a href="examples/debounce.html" target="_blank">Debounce example (new window)</a>
+
+---
+
 # RxJS / Bacon - Comparison Points
 
 * Multi-langauge bindings (Rx) vs single-language (Bacon)
+--
+
 * Hot vs Cold Observables (RxJS only)
+--
+
 * EventStream vs Property (Bacon only)
+--
+
 * Performance tradeoffs (Bacon slower for glitch-free performance)
+--
+
 * Glitch-free / atomic updates (Bacon properties)
+--
+
 * Lazy evaluation (Bacon)
+--
+
 * Error handling - Errors terminate stream (RxJS) vs multiple errors (Bacon)
+--
+
 * Packaging - different subsets / cut-down versions (RxJS)
+--
+
 * Testing using Schedulers (RxJS) - can you do similar with Bacon?
 
 ---
@@ -57,3 +82,4 @@ public static void main(String[] args) {
 * [BaconJS for RxJS Users](https://baconjs.github.io/api.html#for-rxjs-users)
 * [RxJS for Bacon.js Users](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/mapping/bacon.js/whyrx.md)
 * ['Reactive JavaScript Programming' video](https://www.safaribooksonline.com/library/view/reactive-javascript-programming/9781787284913/)
+* [RxJS 4.0 Book](https://xgrommx.github.io/rx-book)
