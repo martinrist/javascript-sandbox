@@ -21,11 +21,27 @@ class: center, middle
 
 # Code Example
 
-```java
-public static void main(String[] args) {
-    System.out.println("Hello World")
-}
-```
+* Some Java:
+
+    ```java
+    public static void main(String[] args) {
+        System.out.println("Hello World")
+    }
+    ```
+
+* Some Haskell:
+
+    ```haskell
+    main :: IO ()
+    main = putStrLn "Hello World"
+    ```
+
+* Some JavaScript:
+
+    ```javascript
+    setTimeout(() => alert("Hello World"), 5000);
+    ```
+
 
 ---
 
